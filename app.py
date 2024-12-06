@@ -15,7 +15,7 @@ from xgboost import XGBRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, root_mean_squared_error
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 import shap
 import pickle
 import joblib
@@ -33,7 +33,7 @@ st.set_page_config(page_title="Crop Yield Prediction", layout="wide")
 st.title('# 🌿💡 Agri-Analytics: Forecasting Yields from Soil to Sun 🌞💧')
 
 # Sidebar navigation
-page = st.sidebar.selectbox('Select Option', ['Home', 'EDA', 'Hypothesis Testing', 'Model Evaluation','Model'])
+page = st.sidebar.selectbox('Select Option', ['Home', 'EDA', 'Hypothesis Testing', 'Model Evaluation', 'Model'])
 
 # Home Page
 if page == 'Home':
@@ -42,7 +42,7 @@ if page == 'Home':
     The problem at hand is predicting the **crop yield (kg per hectare)** based on various factors, such as:  
     - 🌱 **Soil quality**  
     - 🌾 **Seed variety**  
-    - 🧪 **Fertilizer usage**  
+    - 🧫 **Fertilizer usage**  
     - 🌞 **Weather conditions** (sunny days and rainfall)  
     - 💧 **Irrigation practices**  
 
@@ -64,13 +64,13 @@ elif page == 'EDA':
 
     | **Column Name**                          | **Description**                                                                                     |  
     |------------------------------------------|-----------------------------------------------------------------------------------------------------|  
-    | 🌱 **Soil_Quality**                       | Represents the quality of soil, measured on a scale (e.g., nutrient content, pH levels).             |  
-    | 🌾 **Seed_Variety**                       | Indicates the type of seed used (e.g., 1 for hybrid, 0 for non-hybrid).                              |  
-    | 🧪 **Fertilizer_Amount_kg_per_hectare**  | Quantity of fertilizer applied per hectare (in kilograms).                                          |  
+    | 🌱 **Soil**                       | Represents the quality of soil, measured on a scale (e.g., nutrient content, pH levels).             |  
+    | 🌾 **Seed**                       | Indicates the type of seed used (e.g., 1 for hybrid, 0 for non-hybrid).                              |  
+    | 🧫 **Fertilizer**  | Quantity of fertilizer applied per hectare (in kilograms).                                          |  
     | 🌞 **Sunny_Days**                         | Total number of sunny days during the crop-growing season.                                          |  
     | 🌧️ **Rainfall_mm**                       | Amount of rainfall received (in millimeters) during the crop-growing season.                        |  
-    | 💧 **Irrigation_Schedule**                | Represents the irrigation frequency/schedule (e.g., number of irrigations during the growing period).|  
-    | 🎯 **Yield_kg_per_hectare**               | The target variable: Crop yield per hectare (in kilograms).                                         |  
+    | 💧 **Irrigation**                | Represents the irrigation frequency/schedule (e.g., number of irrigations during the growing period).|  
+    | 🌿 **Yield**               | The target variable: Crop yield per hectare (in kilograms).                                         |  
     """)
 
     st.markdown("### Exploratory Data Analysis (EDA) 📊🔍📊")
@@ -107,13 +107,13 @@ elif page == 'EDA':
 
     # Create a list of features to visualize
     features = [
-        "Soil_Quality", 
-        "Seed_Variety", 
-        "Fertilizer_Amount_kg_per_hectare", 
+        "Soil", 
+        "Seed", 
+        "Fertilizer", 
         "Sunny_Days", 
         "Rainfall_mm", 
-        "Irrigation_Schedule", 
-        "Yield_kg_per_hectare"
+        "Irrigation", 
+        "Yield"
     ]
 
     # Create subplots for univariate analysis
@@ -131,12 +131,12 @@ elif page == 'EDA':
 
     st.markdown("""
     - **Interpretation:**
-        - **Soil Quality:** Even distribution of soil quality 🌱.
-        - **Seed Variety:** Binary distribution, indicating two distinct seed varieties 🌾🌾.
-        - **Fertilizer Amount:** Uniform spread of fertilizer 💧.
+        - **Soil:** Even distribution of soil quality 🌱.
+        - **Seed:** Binary distribution, indicating two distinct seed varieties 🌾🌾.
+        - **Fertilizer:** Uniform spread of fertilizer 💧.
         - **Sunny Days:** Normally distributed with a peak around 100 sunny days ☀️.
         - **Rainfall:** Normally distributed with a peak around 500 mm 🌧️.
-        - **Irrigation Schedule:** Multiple peaks, indicating variable irrigation practices 💦.
+        - **Irrigation:** Multiple peaks, indicating variable irrigation practices 💦.
         - **Yield:** Normally distributed with a peak around 800 kg/ha 🌾.
     """)
 
@@ -149,14 +149,16 @@ elif page == 'EDA':
 
     st.markdown("""
     - **Interpretation:**
-      - **Soil Quality:** Low variability 🌱
-      - **Seed Variety:** No variation 🌾
-      - **Fertilizer Amount (kg/ha):** Significant variability 💩
-      - **Sunny Days:** Consistent 🌞
-      - **Rainfall (mm):** High variability 🌧️
-      - **Irrigation Schedule:** No variation 💧
-      - **Yield (kg/ha):** Significant variability 🌾📊
+      - **Soil:** Low variability 🌱
+      - **Seed:** No variation 🌾
+      - **Fertilizer:** Significant variability 💧
+      - **Sunny Days:** Consistent ☀️
+      - **Rainfall:** High variability 🌧️
+      - **Irrigation:** No variation 💧
+      - **Yield:** Significant variability 🌾📊
     """)
+
+
 
     # Violin Plot for Yield by Seed Variety
     st.markdown("### 📊 Violin Plot for Yield by Seed Variety: 🌱")
